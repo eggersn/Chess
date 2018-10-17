@@ -28,7 +28,10 @@ namespace Chess
         unsafe public static extern float* RunRNN(IntPtr instance, float* InputState);
 
         [DllImport("RNN_Chess.dll")]
-        public static extern int BackPropagation(IntPtr instance, int color);
+        public static extern int ErrorCalculation(IntPtr instance, int color);
+
+        [DllImport("RNN_Chess.dll")]
+        public static extern int BackPropagation(IntPtr instance);
 
         [DllImport("RNN_Chess.dll")]
         public static extern int FreeWorkSpace(IntPtr instance);

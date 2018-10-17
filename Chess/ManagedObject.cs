@@ -104,9 +104,14 @@ namespace Chess
             ManagedWrapper.UpdateDimensions(RNN_Chess_instance, Dimensions);
         }
 
-        unsafe public int BackPropagation(int color)
+        public int ErrorCalculation(int color)
         {
-            return ManagedWrapper.BackPropagation(RNN_Chess_instance, color);
+            return ManagedWrapper.ErrorCalculation(RNN_Chess_instance, color);
+        }
+
+        public int BackPropagation()
+        {
+            return ManagedWrapper.BackPropagation(RNN_Chess_instance);
         }
 
         unsafe public float[] RunRNN(float[] InputState, int size)

@@ -36,7 +36,7 @@ namespace Chess
                 WeightManager.WeightReader();
                 RNN_Chess = new ManagedObject(Program.Dimensions);
                 RNN_Chess.InitializeVariables(Variables.InputWeights, Variables.HiddenWeights, Variables.Biases);
-                RNN_Chess.InitializeConstants(-0.005f);
+                RNN_Chess.InitializeConstants(-0.001f);
             }
 
             for(int o = 0; o < epochs; o++)
@@ -55,8 +55,10 @@ namespace Chess
 
                     for(int j = 0; j < Program.Dimensions[0]; j++)
                     {
-                        RNN_Chess.BackPropagation(Variables.winningColor);
+                        RNN_Chess.ErrorCalculation(Variables.winningColor);
                     }
+
+                    RNN_Chess.BackPropagation();
                 }
                 RNN_Chess.UpdateWeightMatrices(Variables.InputWeights, Variables.HiddenWeights, Variables.Biases);
             }

@@ -58,7 +58,7 @@ namespace Chess
             {
                 int[] newPos = new int[2];
                 //Checks Castling
-                if ((cState[2] & cState[4]) == 'O' && cState[3] == '-')
+                if (cState[2] == 'O' && cState[4] == 'O' && cState[3] == '-')
                 {
                     int count = 0;
                     int min = 0;
