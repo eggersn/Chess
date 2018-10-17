@@ -124,7 +124,8 @@ namespace Chess
 
                 for(int i = 0; i < size; i++)
                 {
-                    res[i] = *(ISPtr + i);
+                    res[i] = *(results + i);
+                    res[i] = (res[i] + 1) * 3.5f;
                 }
 
                 return res;
