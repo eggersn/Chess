@@ -58,7 +58,7 @@ namespace Chess
             {
                 int[] newPos = new int[2];
                 //Checks Castling
-                if ((cState[2] & cState[4]) == 'O' && cState[3] == '-')
+                if (cState[2] == 'O' && cState[4] == 'O' && cState[3] == '-')
                 {
                     int count = 0;
                     int min = 0;
@@ -89,8 +89,8 @@ namespace Chess
                         {
                             if (Variables.InputState[moveCount][(1 - color) * 32 + i * 2] == newPos[0] && Variables.InputState[moveCount][(1 - color) * 32 + i * 2 + 1] == newPos[1])
                             {
-                                Variables.InputState[moveCount][(1 - color) * 32 + i * 2] = -1;
-                                Variables.InputState[moveCount][(1 - color) * 32 + i * 2 + 1] = -1;
+                                Variables.InputState[moveCount][(1 - color) * 32 + i * 2] = 8;
+                                Variables.InputState[moveCount][(1 - color) * 32 + i * 2 + 1] = 8;
                             }
                         }
                     }

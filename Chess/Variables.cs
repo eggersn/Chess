@@ -16,5 +16,13 @@ namespace Chess
         public static float[][] InputWeights;
         public static float[][] HiddenWeights;
         public static float[][] Biases;
+
+        public static void ResetVariables()
+        {
+            winningColor = 0;
+            stateCount = 0;
+            InputState = null;
+            Results = null;
+        }
     }
 }

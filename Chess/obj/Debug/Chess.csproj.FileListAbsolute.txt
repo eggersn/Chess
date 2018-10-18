@@ -1,0 +1,6 @@
+H:\Visual Studio\Chess\Chess\bin\Debug\Chess.exe.config
+H:\Visual Studio\Chess\Chess\bin\Debug\Chess.exe
+H:\Visual Studio\Chess\Chess\bin\Debug\Chess.pdb
+H:\Visual Studio\Chess\Chess\obj\Debug\Chess.csprojResolveAssemblyReference.cache
+H:\Visual Studio\Chess\Chess\obj\Debug\Chess.exe
+H:\Visual Studio\Chess\Chess\obj\Debug\Chess.pdb

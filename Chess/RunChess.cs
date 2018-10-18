@@ -14,55 +14,68 @@ namespace Chess
         private static ManagedObject RNN_Chess;
         private static int[] ChessPieces_Count = { 2, 2, 2, 1, 1, 8 };
 
-        public static void RunRNN()
+        public static bool RunRNN()
         {
-            int offset = 0, size = 0, epochs = 0;
+            int offset = 0;
 
-            Console.Write("\tOffset: ");
-            string input = Console.ReadLine();
-            offset = int.Parse(input);
-            Console.Write("\tTraining Samples: ");
-            input = Console.ReadLine();
-            size = int.Parse(input);
-            Console.Write("\tEpochs: ");
-            input = Console.ReadLine();
-            epochs = int.Parse(input);
+            try
+            {
+                Console.Write("\tOffset: ");
+                offset = int.Parse(Console.ReadLine());
+                Console.Write("\tTraining Samples: ");
+                Program.Dimensions[5] = int.Parse(Console.ReadLine());
+                Console.Write("\tEpochs: ");
+                Program.Dimensions[4] = int.Parse(Console.ReadLine());
+            }
+            catch
+            {
+                Console.WriteLine("Incorrect Userinput...\nReturning to Home Screen");
+                Console.ReadKey();
+                return true;
+            }
 
 
             if(RNN_Chess == null)
             {
                 //DataBase.ConvertdefaultInput();
-                DataBase.GetWorkspaceSize(offset, size);
-                WeightManager.WeightReader();
+                DataBase.GetWorkspaceSize(offset, Program.Dimensions[5]);
+                if(Variables.InputWeights == null)
+                {
+                    WeightManager.WeightReader();
+                }
                 RNN_Chess = new ManagedObject(Program.Dimensions);
                 RNN_Chess.InitializeVariables(Variables.InputWeights, Variables.HiddenWeights, Variables.Biases);
-                RNN_Chess.InitializeConstants(-0.005f);
+                RNN_Chess.InitializeConstants(Program.learningrate);
             }
 
-            for(int o = 0; o < epochs; o++)
+            for(int o = 0; o < Program.Dimensions[4]; o++)
             {
-                Console.WriteLine("Epoch: " + o);
-
-                for(int i = 0; i < size; i++)
+                for(int i = 0; i < Program.Dimensions[5]; i++)
                 {
                     DataBase.ConvertChessNotation(offset + i);
                     RNN_Chess.UpdateDimensions(Program.Dimensions);
 
                     for(int j = 0; j < Program.Dimensions[0]; j++)
                     {
-                        RNN_Chess.RunRNN(Variables.InputState[j], Program.Dimensions[1]);
+                        Variables.Results = RNN_Chess.RunRNN(Variables.InputState[j], Program.Dimensions[1]);
                     }
 
                     for(int j = 0; j < Program.Dimensions[0]; j++)
                     {
-                        RNN_Chess.BackPropagation(Variables.winningColor);
+                        RNN_Chess.ErrorCalculation(Variables.winningColor);
                     }
+
+                    RNN_Chess.BackPropagation();
                 }
                 RNN_Chess.UpdateWeightMatrices(Variables.InputWeights, Variables.HiddenWeights, Variables.Biases);
             }
 
             WeightManager.WeightWriter();
             RNN_Chess.FreeWorkSpace();
+            RNN_Chess = null;
+            Variables.ResetVariables();
+
+            return false;
         }
 
         public static void GetInputState(string folderpath, int input)
@@ -76,12 +89,14 @@ namespace Chess
             int dx = 0;
             int dy = 0;
 
-            if(input == 0){
+            if(input == 0)
+            {
                 bmp = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
                 gr = Graphics.FromImage(bmp);
                 gr.CopyFromScreen(0, 0, 0, 0, bmp.Size);
             }
-            else{
+            else
+            {
                 bmp = new Bitmap(Program.directory + @"TempBitmap.PNG");
                 gr = Graphics.FromImage(bmp);
             }
