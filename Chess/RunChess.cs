@@ -45,7 +45,7 @@ namespace Chess
                 }
                 RNN_Chess = new ManagedObject(Program.Dimensions);
                 RNN_Chess.InitializeVariables(Variables.InputWeights, Variables.HiddenWeights, Variables.Biases);
-                RNN_Chess.InitializeConstants(-0.00001f);
+                RNN_Chess.InitializeConstants(Program.learningrate);
             }
 
             for(int o = 0; o < Program.Dimensions[4]; o++)

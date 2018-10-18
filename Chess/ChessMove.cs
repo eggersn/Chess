@@ -89,8 +89,8 @@ namespace Chess
                         {
                             if (Variables.InputState[moveCount][(1 - color) * 32 + i * 2] == newPos[0] && Variables.InputState[moveCount][(1 - color) * 32 + i * 2 + 1] == newPos[1])
                             {
-                                Variables.InputState[moveCount][(1 - color) * 32 + i * 2] = -1;
-                                Variables.InputState[moveCount][(1 - color) * 32 + i * 2 + 1] = -1;
+                                Variables.InputState[moveCount][(1 - color) * 32 + i * 2] = 8;
+                                Variables.InputState[moveCount][(1 - color) * 32 + i * 2 + 1] = 8;
                             }
                         }
                     }

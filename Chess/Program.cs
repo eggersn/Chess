@@ -13,7 +13,8 @@ namespace Chess
     class Program
     {
         public static int color = 0;
-        public static int[] Dimensions = { 1, 64, 64, 2, 0, 0 };
+        public static int[] Dimensions = { 1, 64, 64, 5, 0, 0 };
+        public static float learningrate = -0.001f;
 
         public static string folderpath = @"..\..\..\Chess Pieces";
         public static string imagepath = @"..\..\..\Chess Pieces\Screenshot.jpg";
