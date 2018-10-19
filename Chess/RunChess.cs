@@ -48,6 +48,8 @@ namespace Chess
                 RNN_Chess.InitializeConstants(Program.learningrate);
             }
 
+            long startTime = DateTime.Now.Millisecond;
+
             for(int o = 0; o < Program.Dimensions[4]; o++)
             {
                 for(int i = 0; i < Program.Dimensions[5]; i++)
@@ -72,6 +74,11 @@ namespace Chess
 
             WeightManager.WeightWriter();
             RNN_Chess.FreeWorkSpace();
+
+            long trainingTime = DateTime.Now.Millisecond - startTime;
+            Console.WriteLine("Time spent:\t\t" + (float)trainingTime / 1000 + " s");
+            Console.WriteLine("Time per Game:\t\t" + (float)trainingTime / (1000 * Program.Dimensions[4] * Program.Dimensions[5]) + " s");
+
             RNN_Chess = null;
             Variables.ResetVariables();
 
