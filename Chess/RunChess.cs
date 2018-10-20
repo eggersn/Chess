@@ -20,9 +20,11 @@ namespace Chess
             int offset = 0;
             bool[] validInputs = new bool[3];
 
-            validInputs[0] = Program.getConsoleInput("\tOffset: ", ref offset);
-            validInputs[1] = Program.getConsoleInput("\tTraining Samples: ", ref Program.Dimensions[5]);
-            validInputs[2] = Program.getConsoleInput("\tEpochs: ", ref Program.Dimensions[4]);
+            validInputs[0] = Program.getConsoleInput<int>("\tOffset: ", ref offset);
+            validInputs[1] = Program.getConsoleInput<int>("\tTraining Samples: ", ref Program.Dimensions[5]);
+            validInputs[2] = Program.getConsoleInput<int>("\tEpochs: ", ref Program.Dimensions[4]);
+
+            Console.WriteLine();
 
             for(int i = 0; i < 3; i++)
             {
