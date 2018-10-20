@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Diagnostics;
 
 namespace Chess
 {
@@ -17,23 +18,19 @@ namespace Chess
         public static bool RunRNN()
         {
             int offset = 0;
+            bool[] validInputs = new bool[3];
 
-            try
-            {
-                Console.Write("\tOffset: ");
-                offset = int.Parse(Console.ReadLine());
-                Console.Write("\tTraining Samples: ");
-                Program.Dimensions[5] = int.Parse(Console.ReadLine());
-                Console.Write("\tEpochs: ");
-                Program.Dimensions[4] = int.Parse(Console.ReadLine());
-            }
-            catch
-            {
-                Console.WriteLine("Incorrect Userinput...\nReturning to Home Screen");
-                Console.ReadKey();
-                return true;
-            }
+            validInputs[0] = Program.getConsoleInput("\tOffset: ", ref offset);
+            validInputs[1] = Program.getConsoleInput("\tTraining Samples: ", ref Program.Dimensions[5]);
+            validInputs[2] = Program.getConsoleInput("\tEpochs: ", ref Program.Dimensions[4]);
 
+            for(int i = 0; i < 3; i++)
+            {
+                if(validInputs[i])
+                {
+                    return true;
+                }
+            }
 
             if(RNN_Chess == null)
             {
@@ -48,7 +45,8 @@ namespace Chess
                 RNN_Chess.InitializeConstants(Program.learningrate);
             }
 
-            long startTime = DateTime.Now.Millisecond;
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
 
             for(int o = 0; o < Program.Dimensions[4]; o++)
             {
@@ -75,9 +73,10 @@ namespace Chess
             WeightManager.WeightWriter();
             RNN_Chess.FreeWorkSpace();
 
-            long trainingTime = DateTime.Now.Millisecond - startTime;
-            Console.WriteLine("Time spent:\t\t" + (float)trainingTime / 1000 + " s");
-            Console.WriteLine("Time per Game:\t\t" + (float)trainingTime / (1000 * Program.Dimensions[4] * Program.Dimensions[5]) + " s");
+            sw.Stop();
+
+            Console.WriteLine("Time spent:\t\t" + (float)sw.Elapsed.TotalMilliseconds / 1000 + " s");
+            Console.WriteLine("Time per Game:\t\t" + (float)sw.Elapsed.TotalMilliseconds / (1000 * Program.Dimensions[4] * Program.Dimensions[5]) + " s\n");
 
             RNN_Chess = null;
             Variables.ResetVariables();

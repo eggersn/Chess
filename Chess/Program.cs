@@ -13,8 +13,8 @@ namespace Chess
     class Program
     {
         public static int color = 0;
-        public static int[] Dimensions = { 1, 64, 64, 10, 0, 0 };
-        public static float learningrate = -0.0001f;
+        public static int[] Dimensions = { 1, 64, 64, 1, 0, 0 };
+        public static float learningrate = -0.01f;
 
         public static string folderpath = @"..\..\..\Chess Pieces";
         public static string imagepath = @"..\..\..\Chess Pieces\Screenshot.jpg";
@@ -49,9 +49,11 @@ namespace Chess
                         falseInput = RunChess.RunRNN();
                         break;
                     case "1":
+                        int value = 0;
                         Console.WriteLine("\t[0] Screenshot\t[1] From File");
-                        input = Console.ReadLine();
-                        RunChess.GetInputState(folderpath, int.Parse(input));
+                        falseInput = getConsoleInput("\t[0] Screenshot\t[1] From File", ref value);
+                        if(!falseInput)
+                            RunChess.GetInputState(folderpath, value);
                         break;
                     case "2":
                         ChessPieces.FindPieces(imagepath, folderpath);
@@ -60,15 +62,16 @@ namespace Chess
                         WeightManager.InitializeWeights(Dimensions);
                         break;
                     case "4":
-                        Console.Write("\tSample Size: ");
-                        int sampleSize = int.Parse(Console.ReadLine());
-                        Console.Write("\tOffset: ");
-                        int offset = int.Parse(Console.ReadLine());
-                        DataBase.GetChessGames(sampleSize, offset);
+                        int sampleSize = 0, offset = 0;
+                        falseInput = getConsoleInput("\tSample Size: ", ref sampleSize);
+                        if(!falseInput)
+                            falseInput = getConsoleInput("\tSample Size: ", ref offset);
+                        if(!falseInput)
+                            DataBase.GetChessGames(sampleSize, offset);
                         break;
                     case "5":
-                        Console.WriteLine("\t[0] Black\t[1] White");
-                        color = int.Parse(Console.ReadLine());
+                        int color = 0;
+                        falseInput =getConsoleInput("\t[0] Black\t[1] White", ref color);
                         break;
                     case "6":
                         exit = true;
@@ -81,6 +84,22 @@ namespace Chess
                 }
                 Console.Clear();
             }
+        }
+
+        public static bool getConsoleInput(string description, ref int value)
+        {
+            Console.Write(description);
+            try
+            {
+                value = int.Parse(Console.ReadLine());
+            }
+            catch
+            {
+                Console.WriteLine("Invalid Userinput...");
+                return true;
+            }
+
+            return false;
         }
     }
 }
